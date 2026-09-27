@@ -52,7 +52,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center gap-3.5">
                 <div class="bg-white p-1 rounded-xl border border-slate-700 shadow-md flex items-center justify-center shrink-0">
-                    <img src="r33 logo.jpg" alt="R33 RUNNING TECHNIQUE Logo" class="h-10 w-auto object-contain rounded-lg" onerror="this.onerror=null; this.src='r33 logo_3.jpg';">
+                    <img src="r33-logo.jpg" alt="R33 RUNNING TECHNIQUE Logo" class="h-10 w-auto object-contain rounded-lg" onerror="this.onerror=null; this.src='r33_logo.jpg';">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
@@ -236,7 +236,24 @@
                     </tbody>
                 </table>
             </div>
+
             <div id="emptyRosterMsg" class="hidden text-center py-8 text-slate-500 text-xs">暫無符合條件的隊友資料</div>
+
+            <!-- Pagination Controls -->
+            <div id="paginationContainer" class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800 pt-4 text-xs">
+                <div class="text-slate-400">
+                    顯示第 <span id="pageStartRnk" class="font-bold text-white">0</span> 至 <span id="pageEndRnk" class="font-bold text-white">0</span> 筆（共 <span id="totalRecordsCount" class="font-bold text-schk-accent">0</span> 筆）
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="prevPageBtn" onclick="changePage(-1)" class="bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold px-3 py-1.5 rounded-xl border border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition">
+                        <i class="fa-solid fa-chevron-left"></i> 上一頁
+                    </button>
+                    <span class="text-slate-400 font-mono px-2">第 <span id="currentPageNum" class="text-schk-green font-bold">1</span> / <span id="totalPagesNum" class="font-bold">1</span> 頁</span>
+                    <button id="nextPageBtn" onclick="changePage(1)" class="bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold px-3 py-1.5 rounded-xl border border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition">
+                        下一頁 <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
         </section>
 
         <!-- Section 2: Pace Calculator & Route Guide -->
@@ -489,13 +506,13 @@
                             <option value="私人班/自修">私人班/自修</option>
                             <option value="LOK 星期一 將軍澳路跑技術班">LOK 星期一 將軍澳路跑技術班</option>
                             <option value="LOK 星期二 跑馬地路跑技術班">LOK 星期二 跑馬地路跑技術班</option>
-                            <option value="LOK 星期四葵涌路跑/越野跑班">LOK 星期四葵涌路跑/越野跑班</option>
+                            <option value="LOK 星期四葵湧路跑/越野跑班">LOK 星期四葵湧路跑/越野跑班</option>
                             <option value="LOK 星期五 跑馬地路跑/越野跑班">LOK 星期五 跑馬地路跑/越野跑班</option>
                             <option value="LOK 城門谷星期日越野技術班">LOK 城門谷星期日越野技術班</option>
                             <option value="JEFFREY 星期三啟德Airside 樂齡體適能運動班">JEFFREY 星期三啟德Airside 樂齡體適能運動班</option>
                             <option value="JEFFREY 星期三銅鑼灣運動場（中央圖書館旁）">JEFFREY 星期三銅鑼灣運動場（中央圖書館旁）</option>
- 			    <option value="JEFFERY 星期五斧山道運動場 跑姿X肌力提升班">JEFFERY 星期五斧山道運動場 跑姿X肌力提升班</option>
-                            <option value="RYAN 星期一 葵涌運動場「路跑技術X體能班」">RYAN 星期一 葵涌運動場「路跑技術X體能班」</option>
+                            <option value="JEFFERY 星期五斧山道運動場 跑姿X肌力提升班">JEFFERY 星期五斧山道運動場 跑姿X肌力提升班</option>
+                            <option value="RYAN 星期一 葵湧運動場「路跑技術X體能班」">RYAN 星期一 葵湧運動場「路跑技術X體能班」</option>
                             <option value="黃國威星期二 港島路跑/越野跑訓練班">黃國威星期二 港島路跑/越野跑訓練班</option>
                             <option value="黃國威星期三 青衣/城門谷路跑/越野跑班">黃國威星期三 青衣/城門谷路跑/越野跑班</option>
                             <option value="鄭劍輝星期六「獅子山」越野跑班">鄭劍輝星期六「獅子山」越野跑班</option>
@@ -601,6 +618,10 @@
         let cheerMessages = [];
         let supporters = [];
 
+        // 分頁相關變數
+        let currentPage = 1;
+        const pageSize = 10;
+
         document.addEventListener('DOMContentLoaded', () => {
             loadAllData();
             initCountdown();
@@ -608,7 +629,7 @@
             calculatePaceFull();
         });
 
-        // 1. 讀取雲端資料 (雙向載入 Runners 與 Supporters)
+        // 讀取雲端資料
         async function loadAllData() {
             if (GAS_API_URL) {
                 try {
@@ -639,7 +660,7 @@
             renderAll();
         }
 
-        // 2. 儲存資料並打包上傳至 Google Sheet
+        // 儲存資料至 Google Sheet
         async function saveAllData() {
             localStorage.setItem('r33_runners_v8', JSON.stringify(runners));
             localStorage.setItem('r33_cheers_v8', JSON.stringify(cheerMessages));
@@ -796,6 +817,7 @@
             }).join('');
         }
 
+        // 渲染跑手名單（包含分頁處理）
         function renderRunnerList() {
             const distFilter = document.getElementById('distanceFilter').value;
             const waveFilter = document.getElementById('waveFilter').value;
@@ -808,16 +830,29 @@
                 return matchDist && matchWave;
             });
 
+            const totalRecords = filtered.length;
+            const totalPages = Math.ceil(totalRecords / pageSize) || 1;
+
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
             document.getElementById('rosterCountBadge').innerText = `已登記 ${runners.length} 人`;
 
-            if (filtered.length === 0) {
+            if (totalRecords === 0) {
                 tbody.innerHTML = '';
                 emptyMsg.classList.remove('hidden');
+                document.getElementById('paginationContainer').classList.add('hidden');
                 return;
             }
 
             emptyMsg.classList.add('hidden');
-            tbody.innerHTML = filtered.map(r => `
+            document.getElementById('paginationContainer').classList.remove('hidden');
+
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, totalRecords);
+            const pageData = filtered.slice(startIndex, endIndex);
+
+            tbody.innerHTML = pageData.map(r => `
                 <tr class="hover:bg-slate-900/60 transition">
                     <td class="p-3.5 font-bold text-white">${escapeHtml(r.name)}</td>
                     <td class="p-3.5"><span class="bg-schk-green/20 text-schk-green border border-schk-green/30 px-2 py-0.5 rounded font-bold">${escapeHtml(r.distance)}</span></td>
@@ -833,9 +868,26 @@
                     </td>
                 </tr>
             `).join('');
+
+            document.getElementById('pageStartRnk').innerText = startIndex + 1;
+            document.getElementById('pageEndRnk').innerText = endIndex;
+            document.getElementById('totalRecordsCount').innerText = totalRecords;
+            document.getElementById('currentPageNum').innerText = currentPage;
+            document.getElementById('totalPagesNum').innerText = totalPages;
+
+            document.getElementById('prevPageBtn').disabled = (currentPage === 1);
+            document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
         }
 
-        function filterRunnerList() { renderRunnerList(); }
+        function changePage(direction) {
+            currentPage += direction;
+            renderRunnerList();
+        }
+
+        function filterRunnerList() {
+            currentPage = 1;
+            renderRunnerList();
+        }
 
         function renderCheerArea() {
             const targetSelect = document.getElementById('cheerTargetRunner');
@@ -889,7 +941,6 @@
             `).join('');
         }
 
-        // 3. 處理打氣團提交（自動加入時間戳記並上傳雲端）
         function handleSupporterSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('supporterName').value.trim();
