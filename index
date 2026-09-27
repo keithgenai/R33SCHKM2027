@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R33 渣打香港馬拉松 2027 備戰大本營</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        schk: {
+                            green: '#00a859',
+                            darkgreen: '#007a3e',
+                            navy: '#0b132b',
+                            darkblue: '#1c2541',
+                            accent: '#00f0ff',
+                            gold: '#ffb703',
+                            r33red: '#e63946',
+                            r33orange: '#f77f00'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0b132b; }
+        ::-webkit-scrollbar-thumb { background: #1c2541; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00a859; }
+        .bg-grid-pattern {
+            background-size: 30px 30px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-schk-navy text-slate-100 font-sans min-h-screen flex flex-col bg-grid-pattern">
+
+    <!-- Header Navigation -->
+    <header class="bg-schk-darkblue/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3.5">
+                <!-- R33 Official Logo Image -->
+                <div class="bg-white p-1 rounded-xl border border-slate-700 shadow-md flex items-center justify-center shrink-0">
+                    <img src="r33 logo.jpg" alt="R33 RUNNING TECHNIQUE Logo" class="h-10 w-auto object-contain rounded-lg" onerror="this.onerror=null; this.src='r33 logo_3.jpg';">
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-lg font-black tracking-tight text-white flex items-center gap-2">
+                            R33 渣打香港馬拉松 2027
+                        </h1>
+                        <span class="bg-schk-r33red/20 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded border border-red-500/30">R33 TEAM</span>
+                    </div>
+                    <p class="text-xs text-slate-400">隊友陣容 • 配速計算 • 賽道攻略 • 打氣留言區</p>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <input type="file" id="csvFileInput" accept=".csv" class="hidden" onchange="importRunnerCSV(event)">
+                <button onclick="document.getElementById('csvFileInput').click()" class="bg-slate-800 hover:bg-slate-700 text-schk-accent text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-700 transition shadow flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-import"></i> 匯入 CSV
+                </button>
+                <button onclick="exportRunnerCSV()" class="bg-schk-darkgreen hover:bg-schk-green text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition shadow flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-excel"></i> 匯出 CSV
+                </button>
+                <button onclick="openRunnerModal()" class="bg-schk-green hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl transition shadow-lg shadow-schk-green/20 flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i> 我都有報名渣馬 2027
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+
+        <!-- Banner Countdown -->
+        <section class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-schk-darkblue via-slate-900 to-slate-950 border border-slate-800 p-6 md:p-8 shadow-2xl">
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700/60 px-3 py-1 rounded-full text-xs font-semibold text-schk-accent">
+                        <i class="fa-regular fa-calendar-check text-schk-gold"></i>
+                        <span>比賽日期：2027 年 1 月 17 日 (星期日) • 維多利亞公園終點</span>
+                    </div>
+
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                        渣打香港馬拉松 2027 <br>
+                        <span class="bg-gradient-to-r from-schk-green via-emerald-300 to-schk-accent bg-clip-text text-transparent">同學陣容與備戰大本營</span>
+                    </h2>
+
+                    <p class="text-sm text-slate-300 leading-relaxed max-w-2xl">
+                        整合隊友報名數據、比賽日 Target Pace 精確計算機、賽道重點攻略，並設有現場打氣團報名與加油留言板！
+                    </p>
+                </div>
+
+                <!-- Countdown Timer -->
+                <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 p-6 rounded-2xl text-center space-y-4 shadow-xl">
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-400 block">距離開跑倒數 (Race Countdown)</span>
+                    
+                    <div class="grid grid-cols-4 gap-2 text-center" id="countdownTimer">
+                        <div class="bg-schk-navy/90 border border-slate-800 p-3 rounded-xl">
+                            <span class="text-2xl sm:text-3xl font-black text-schk-green block font-mono" id="cdDays">000</span>
+                            <span class="text-[10px] text-slate-400 uppercase font-semibold">天</span>
+                        </div>
+                        <div class="bg-schk-navy/90 border border-slate-800 p-3 rounded-xl">
+                            <span class="text-2xl sm:text-3xl font-black text-schk-accent block font-mono" id="cdHours">00</span>
+                            <span class="text-[10px] text-slate-400 uppercase font-semibold">小時</span>
+                        </div>
+                        <div class="bg-schk-navy/90 border border-slate-800 p-3 rounded-xl">
+                            <span class="text-2xl sm:text-3xl font-black text-white block font-mono" id="cdMins">00</span>
+                            <span class="text-[10px] text-slate-400 uppercase font-semibold">分鐘</span>
+                        </div>
+                        <div class="bg-schk-navy/90 border border-slate-800 p-3 rounded-xl">
+                            <span class="text-2xl sm:text-3xl font-black text-schk-gold block font-mono" id="cdSecs">00</span>
+                            <span class="text-[10px] text-slate-400 uppercase font-semibold">秒</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Statistics Summary Cards (新增的報名數據統計區) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col justify-between">
+                <span class="text-xs font-semibold text-slate-400">全馬 (42.195K)</span>
+                <div class="mt-2 flex items-baseline gap-1">
+                    <span class="text-3xl font-black text-schk-gold font-mono" id="statFull">0</span>
+                    <span class="text-xs text-slate-400 font-bold">人</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col justify-between">
+                <span class="text-xs font-semibold text-slate-400">半馬 (21K)</span>
+                <div class="mt-2 flex items-baseline gap-1">
+                    <span class="text-3xl font-black text-schk-accent font-mono" id="statHalf">0</span>
+                    <span class="text-xs text-slate-400 font-bold">人</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col justify-between">
+                <span class="text-xs font-semibold text-slate-400">10 公里 (10K)</span>
+                <div class="mt-2 flex items-baseline gap-1">
+                    <span class="text-3xl font-black text-schk-green font-mono" id="stat10K">0</span>
+                    <span class="text-xs text-slate-400 font-bold">人</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col justify-between">
+                <span class="text-xs font-semibold text-slate-400">起步組別分布</span>
+                <div class="mt-2 text-xs font-medium text-slate-300 leading-relaxed truncate" id="statWaves">
+                    無數據
+                </div>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col justify-between">
+                <span class="text-xs font-semibold text-slate-400">已組隊 / 報名狀態</span>
+                <div class="mt-2">
+                    <span class="text-sm font-extrabold text-schk-green bg-schk-green/10 border border-schk-green/20 px-2.5 py-1 rounded-lg inline-block">
+                        <i class="fa-solid fa-circle-check"></i> 已報名 <span id="statConfirmed">0</span> 人
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Roster Table -->
+        <section class="bg-schk-darkblue/40 border border-slate-800 rounded-3xl p-6 space-y-6 shadow-xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-xl font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-users-line text-schk-accent"></i> 同學報名距離及起跑組別明細
+                        </h3>
+                        <span id="rosterCountBadge" class="bg-schk-green/20 text-schk-accent border border-schk-green/30 text-xs px-2.5 py-0.5 rounded-full font-bold">
+                            已登記 0 人
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <select id="distanceFilter" onchange="filterRunnerList()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 px-3 py-2 rounded-xl focus:ring-2 focus:ring-schk-green">
+                        <option value="ALL">所有項目 (All Distances)</option>
+                        <option value="Full">馬拉松 (Full)</option>
+                        <option value="Half">半馬拉松 (Half)</option>
+                        <option value="10K">10公里 (10K)</option>
+                        <option value="Wheelchair">輪椅賽 (Wheelchair)</option>
+                    </select>
+
+                    <select id="waveFilter" onchange="filterRunnerList()" class="bg-slate-900 border border-slate-700 text-xs text-amber-300 font-semibold px-3 py-2 rounded-xl focus:ring-2 focus:ring-schk-green">
+                        <option value="ALL">所有組別 (All Waves)</option>
+                        <option value="挑戰組">挑戰組</option>
+                        <option value="一組">一組</option>
+                        <option value="二組">二組</option>
+                        <option value="三組">三組</option>
+                        <option value="四組">四組</option>
+                        <option value="五組">五組</option>
+                        <option value="六組">六組</option>
+                        <option value="七組">七組</option>
+                        <option value="八組">八組</option>
+                        <option value="未分組">未分組</option>
+                    </select>
+
+                    <button onclick="openRunnerModal()" class="bg-schk-green hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-plus"></i> 新增跑友
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-slate-900/90 text-slate-400 uppercase font-semibold border-b border-slate-800">
+                        <tr>
+                            <th class="p-3.5">跑手姓名</th>
+                            <th class="p-3.5">項目</th>
+                            <th class="p-3.5 text-amber-400">起步組別</th>
+                            <th class="p-3.5">上課班別</th>
+                            <th class="p-3.5">跑鞋型號</th>
+                            <th class="p-3.5">目標時間</th>
+                            <th class="p-3.5">號碼布</th>
+                            <th class="p-3.5">狀態</th>
+                            <th class="p-3.5">備註</th>
+                            <th class="p-3.5 text-right">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="runnerTableBody" class="divide-y divide-slate-800/60 font-medium">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="emptyRosterMsg" class="hidden text-center py-8 text-slate-500 text-xs">暫無符合條件的隊友資料</div>
+        </section>
+
+        <!-- Section 2: Pace Calculator & Route Guide -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Pace Calculator -->
+            <section class="bg-schk-darkblue/50 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
+                    <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-schk-accent"></i> 賽事 Target Sub 目標配速計算機
+                    </h3>
+                    <span class="text-[10px] bg-slate-800 text-schk-green font-bold px-2 py-0.5 rounded border border-slate-700">即時自動計算</span>
+                </div>
+                
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-4 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-400 font-semibold mb-1">比賽項目 (Distance)</label>
+                            <select id="calcDistance" onchange="updateTargetOptions(); calculatePaceFull();" class="w-full bg-schk-navy border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-schk-green">
+                                <option value="42.195">全馬拉松 (42.195 km)</option>
+                                <option value="21.0975">半馬拉松 (21.0975 km)</option>
+                                <option value="10">10公里 (10 km)</option>
+                                <option value="5">5公里 (5 km)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 font-semibold mb-1">目標時間 (Target Sub Target)</label>
+                            <select id="calcTargetPreset" onchange="handlePresetChange()" class="w-full bg-schk-navy border border-slate-700 rounded-xl px-3 py-2 text-schk-gold font-bold focus:outline-none focus:border-schk-green">
+                                <!-- Dynamic Options -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Custom Input Fields -->
+                    <div id="customTimeBox" class="hidden bg-slate-950/60 p-3 rounded-xl border border-slate-800 flex items-center gap-2 justify-center">
+                        <span class="text-slate-400 font-semibold">自訂目標時間：</span>
+                        <input type="number" id="calcHours" min="0" max="10" value="3" onchange="calculatePaceFull()" class="w-12 bg-schk-navy border border-slate-700 rounded-lg py-1 text-center text-white font-mono">
+                        <span class="text-slate-400 font-bold">:</span>
+                        <input type="number" id="calcMins" min="0" max="59" value="30" onchange="calculatePaceFull()" class="w-12 bg-schk-navy border border-slate-700 rounded-lg py-1 text-center text-white font-mono">
+                        <span class="text-slate-400 font-bold">:</span>
+                        <input type="number" id="calcSecs" min="0" max="59" value="00" onchange="calculatePaceFull()" class="w-12 bg-schk-navy border border-slate-700 rounded-lg py-1 text-center text-white font-mono">
+                    </div>
+
+                    <!-- Calculator Output Display -->
+                    <div id="paceResultArea" class="space-y-3 pt-1">
+                        <div class="grid grid-cols-2 gap-3 text-center">
+                            <div class="bg-slate-800/80 border border-slate-700 p-3 rounded-xl">
+                                <span class="text-[10px] text-slate-400 uppercase block font-semibold">目標平均 Pace</span>
+                                <span class="text-2xl font-black text-schk-accent font-mono" id="paceDisplay">--:--</span>
+                                <span class="text-[10px] text-slate-400 block">/ km</span>
+                            </div>
+                            <div class="bg-slate-800/80 border border-slate-700 p-3 rounded-xl">
+                                <span class="text-[10px] text-slate-400 uppercase block font-semibold">平均時速 (Speed)</span>
+                                <span class="text-2xl font-black text-schk-gold font-mono" id="speedDisplay">--.--</span>
+                                <span class="text-[10px] text-slate-400 block">km/h</span>
+                            </div>
+                        </div>
+
+                        <!-- Split Times Forecast Table -->
+                        <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-950/50">
+                            <div class="bg-slate-800 px-3 py-1.5 text-[11px] font-bold text-slate-300 border-b border-slate-700 flex justify-between items-center">
+                                <span>賽事各分段配速時間表 (Split Times)</span>
+                                <span id="targetLabelBadge" class="text-schk-accent font-mono">Sub 3:30</span>
+                            </div>
+                            <table class="w-full text-center text-[11px]">
+                                <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800">
+                                    <tr>
+                                        <th class="py-1.5">分段 Checkpoint</th>
+                                        <th class="py-1.5">預計累計時間</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="splitTableBody" class="divide-y divide-slate-800/50 font-mono text-slate-300">
+                                    <!-- Dynamic Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Route Landmarks Guide -->
+            <section class="bg-schk-darkblue/50 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot text-schk-gold"></i> 渣馬經典賽道四地標攻略 (全馬)
+                    </h3>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex gap-3 items-start">
+                        <div class="bg-schk-navy p-2 rounded-lg text-schk-gold mt-0.5 border border-slate-700"><i class="fa-solid fa-bridge text-base"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">昂船洲大橋 (約 10km)</h4>
+                            <p class="text-xs text-slate-400 mt-1">全馬第一個考驗，上斜路段長且大風。建議躲在集團後方避風，切勿強行加速，保持平穩心率。</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex gap-3 items-start">
+                        <div class="bg-schk-navy p-2 rounded-lg text-amber-500 mt-0.5 border border-slate-700"><i class="fa-solid fa-road-spikes text-base"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">汀九橋 (約 15km)</h4>
+                            <p class="text-xs text-slate-400 mt-1">折返點路段，暗斜較多，去程順風回程逆風。注意此處路面稍微傾斜，跑姿要放鬆，適時補充水份。</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex gap-3 items-start">
+                        <div class="bg-schk-navy p-2 rounded-lg text-schk-accent mt-0.5 border border-slate-700"><i class="fa-solid fa-water text-base"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">西區海底隧道 (約 34km)</h4>
+                            <p class="text-xs text-slate-400 mt-1">著名的「撞牆期」熱點。入隧道長命落斜易傷膝，出隧道急上斜最耗體力。步幅縮小，提高步頻應付。</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex gap-3 items-start">
+                        <div class="bg-schk-navy p-2 rounded-lg text-schk-green mt-0.5 border border-slate-700"><i class="fa-solid fa-flag-checkered text-base"></i></div>
+                        <div>
+                            <h4 class="font-bold text-white text-sm">馬師道天橋至維園 (約 40-42km)</h4>
+                            <p class="text-xs text-slate-400 mt-1">最後的體力透支位（駱克道 HSBC 附近有打氣團！），咬緊牙關，維持跑姿，享受兩旁歡呼衝線！</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Section 3: Cheering Area & On-Site Supporters Area -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Column 1: Cheer Message Board -->
+            <section class="lg:col-span-7 bg-schk-darkblue/50 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+                <div class="space-y-4">
+                    <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-comments text-schk-r33red"></i> 跑友打氣留言板 (Cheer Zone)
+                        </h3>
+                        <span class="text-xs text-slate-400">為參賽同學送上祝福與加油！</span>
+                    </div>
+
+                    <!-- Cheer Input Form -->
+                    <form onsubmit="handleCheerSubmit(event)" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="cheerAuthor" required placeholder="你的名字 / 暱稱" class="bg-schk-navy border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-schk-green">
+                            <select id="cheerTargetRunner" required class="bg-schk-navy border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-schk-green">
+                                <option value="">選擇打氣對象 (同學/全體)...</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="text" id="cheerMessage" required placeholder="寫下打氣留言 (例如: 祝大文輕鬆 Sub330！衝啊！)" class="flex-1 bg-schk-navy border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-schk-green">
+                            <button type="submit" class="bg-schk-r33red hover:bg-red-500 text-white font-bold px-4 py-2 rounded-xl transition shadow shrink-0">
+                                <i class="fa-solid fa-paper-plane"></i> 發送
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Message Stream -->
+                    <div id="cheerList" class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+                        <!-- Dynamic Messages -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Column 2: On-site Supporters Registration -->
+            <section class="lg:col-span-5 bg-schk-darkblue/50 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+                <div class="space-y-4">
+                    <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-bullhorn text-schk-accent"></i> 現場打氣團同事報名區
+                        </h3>
+                        <span id="supporterBadge" class="bg-schk-accent/20 text-schk-accent border border-schk-accent/30 text-[10px] px-2 py-0.5 rounded-full font-bold">0 人到場</span>
+                    </div>
+
+                    <div class="bg-schk-green/10 border border-schk-green/20 rounded-xl p-3 flex items-center gap-3">
+                        <i class="fa-solid fa-location-dot text-schk-green text-xl ml-2"></i>
+                        <div>
+                            <p class="text-xs text-slate-300">R33 官方打氣熱點：</p>
+                            <p class="text-sm font-bold text-white">駱克道 HSBC 附近</p>
+                        </div>
+                    </div>
+
+                    <form onsubmit="handleSupporterSubmit(event)" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 text-xs">
+                        <div>
+                            <label class="block text-slate-400 font-semibold mb-1">報名打氣同事姓名 *</label>
+                            <input type="text" id="supporterName" required placeholder="例如: Sarah (HR)" class="w-full bg-schk-navy border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-schk-green">
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-schk-green hover:bg-emerald-400 text-slate-950 font-extrabold py-2 rounded-xl transition shadow">
+                            <i class="fa-solid fa-user-plus"></i> 報名加入駱克道打氣團
+                        </button>
+                    </form>
+
+                    <!-- Supporters List Table -->
+                    <div class="max-h-[140px] overflow-y-auto border border-slate-800 rounded-xl bg-slate-900/60 p-2">
+                        <ul id="supporterList" class="divide-y divide-slate-800 text-xs">
+                            <!-- Dynamic -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal: Register / Edit Runner -->
+    <div id="runnerModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-schk-darkblue border border-slate-700 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl space-y-4">
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-900">
+                <h3 class="text-base font-bold text-white flex items-center gap-2" id="modalTitle">
+                    <i class="fa-solid fa-user-plus text-schk-green"></i> 登記 R33 隊友/同學參賽資料
+                </h3>
+                <button onclick="closeRunnerModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="runnerForm" onsubmit="handleRunnerSubmit(event)" class="p-5 space-y-4 text-xs max-h-[75vh] overflow-y-auto">
+                <input type="hidden" id="runnerEditId">
+
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">跑手姓名 / 同學暱稱 *</label>
+                    <input type="text" id="runnerName" required placeholder="例如: 阿強 (R33)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">參賽項目 *</label>
+                        <select id="runnerDistance" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                            <option value="Full">馬拉松 (Full)</option>
+                            <option value="Half">半馬拉松 (Half)</option>
+                            <option value="10K">10公里 (10K)</option>
+                            <option value="Wheelchair">輪椅賽 (Wheelchair)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-amber-300 mb-1">起步組別 (Wave) *</label>
+                        <select id="runnerWave" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-amber-300 font-semibold focus:outline-none focus:border-schk-green">
+                            <option value="挑戰組">挑戰組</option>
+                            <option value="一組">一組</option>
+                            <option value="二組">二組</option>
+                            <option value="三組">三組</option>
+                            <option value="四組">四組</option>
+                            <option value="五組">五組</option>
+                            <option value="六組">六組</option>
+                            <option value="七組">七組</option>
+                            <option value="八組">八組</option>
+                            <option value="未分組">未分組</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">上課班別 (星期幾班)</label>
+                        <select id="runnerClass" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                            <option value="私人班/自修">私人班/自修</option>
+                            <option value="LOK 星期一 將軍澳路跑技術班">LOK 星期一 將軍澳路跑技術班</option>
+                            <option value="LOK 星期二 跑馬地路跑技術班">LOK 星期二 跑馬地路跑技術班</option>
+                            <option value="LOK 星期四葵涌路跑/越野跑班">LOK 星期四葵涌路跑/越野跑班</option>
+                            <option value="LOK 星期五 跑馬地路跑/越野跑班">LOK 星期五 跑馬地路跑/越野跑班</option>
+                            <option value="LOK 城門谷星期日越野技術班">LOK 城門谷星期日越野技術班</option>
+                            <option value="JEFFREY 星期三啟德Airside 樂齡體適能運動班">JEFFREY 星期三啟德Airside 樂齡體適能運動班</option>
+                            <option value="JEFFREY 星期三銅鑼灣運動場（中央圖書館旁）">JEFFREY 星期三銅鑼灣運動場（中央圖書館旁）</option>
+ 			    <option value="JEFFERY 星期五斧山道運動場 跑姿X肌力提升班">JEFFERY 星期五斧山道運動場 跑姿X肌力提升班</option>
+                            <option value="RYAN 星期一 葵涌運動場「路跑技術X體能班」">RYAN 星期一 葵涌運動場「路跑技術X體能班」</option>
+                            <option value="黃國威星期二 港島路跑/越野跑訓練班">黃國威星期二 港島路跑/越野跑訓練班</option>
+                            <option value="黃國威星期三 青衣/城門谷路跑/越野跑班">黃國威星期三 青衣/城門谷路跑/越野跑班</option>
+                            <option value="鄭劍輝星期六「獅子山」越野跑班">鄭劍輝星期六「獅子山」越野跑班</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">預計穿著跑鞋型號</label>
+                        <input type="text" id="runnerShoes" placeholder="如: Nike Alphafly 3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">目標時間 (Target Sub)</label>
+                        <input type="text" id="runnerTarget" placeholder="如: Sub 3:45 / Sub 1:40" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">號碼布 (Bib No.)</label>
+                        <input type="text" id="runnerBib" placeholder="未公佈可留空" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">抽籤 / 參賽狀態</label>
+                    <select id="runnerStatus" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                        <option value="已成功報名">已成功報名</option>
+                        <option value="等待抽籤結果">等待抽籤結果</option>
+                        <option value="考慮報名中">考慮報名中</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">備註 / 參賽目標</label>
+                    <input type="text" id="runnerNotes" placeholder="如: 開PP目標完賽" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-schk-green">
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button type="submit" class="flex-1 bg-schk-green hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl transition shadow">
+                        儲存資料 Save
+                    </button>
+                    <button type="button" onclick="closeRunnerModal()" class="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl transition">
+                        取消
+                    </button>
+                </div>
+            </form>	
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-6 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p>R33 RUNNING TECHNIQUE • 渣打香港馬拉松 2027 備戰平台</p>
+        </div>
+    </footer>
+
+    <script>
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw6bLylxWu1jHwSwhKDls7a4Kqz2PoXPftytjLSr-uegXf8UUN37WkvEB3ZJzENOnHE/exec"; 
+
+        const presetOptions = {
+            "42.195": [
+                { label: "Sub 2:45 (02:45:00)", h: 2, m: 45, s: 0 },
+                { label: "Sub 3:00 (03:00:00) 破三", h: 3, m: 0, s: 0 },
+                { label: "Sub 3:15 (03:15:00)", h: 3, m: 15, s: 0 },
+                { label: "Sub 3:30 (03:30:00)", h: 3, m: 30, s: 0, default: true },
+                { label: "Sub 3:45 (03:45:00)", h: 3, m: 45, s: 0 },
+                { label: "Sub 4:00 (04:00:00) Sub 4", h: 4, m: 0, s: 0 },
+                { label: "Sub 4:30 (04:30:00)", h: 4, m: 30, s: 0 },
+                { label: "Sub 5:00 (05:00:00)", h: 5, m: 0, s: 0 },
+                { label: "自訂時間 (Custom Time)", h: 0, m: 0, s: 0, custom: true }
+            ],
+            "21.0975": [
+                { label: "Sub 1:30 (01:30:00)", h: 1, m: 30, s: 0 },
+                { label: "Sub 1:45 (01:45:00)", h: 1, m: 45, s: 0, default: true },
+                { label: "Sub 2:00 (02:00:00)", h: 2, m: 0, s: 0 },
+                { label: "Sub 2:15 (02:15:00)", h: 2, m: 15, s: 0 },
+                { label: "Sub 2:30 (02:30:00)", h: 2, m: 30, s: 0 },
+                { label: "自訂時間 (Custom Time)", h: 0, m: 0, s: 0, custom: true }
+            ],
+            "10": [
+                { label: "Sub 40:00", h: 0, m: 40, s: 0 },
+                { label: "Sub 45:00", h: 0, m: 45, s: 0 },
+                { label: "Sub 50:00", h: 0, m: 50, s: 0, default: true },
+                { label: "Sub 55:00", h: 0, m: 55, s: 0 },
+                { label: "Sub 1:00:00", h: 1, m: 0, s: 0 },
+                { label: "自訂時間 (Custom Time)", h: 0, m: 0, s: 0, custom: true }
+            ],
+            "5": [
+                { label: "Sub 20:00", h: 0, m: 20, s: 0 },
+                { label: "Sub 25:00", h: 0, m: 25, s: 0, default: true },
+                { label: "Sub 30:00", h: 0, m: 30, s: 0 },
+                { label: "自訂時間 (Custom Time)", h: 0, m: 0, s: 0, custom: true }
+            ]
+        };
+
+        const initialRunners = [
+            { id: 1, name: "阿強 (R33)", distance: "Full", wave: "一組", classDay: "星期二班", shoes: "Nike Vaporfly 3", target: "Sub 3:45", bib: "A1204", status: "已成功報名", notes: "開PP目標完賽" },
+            { id: 2, name: "David Bro", distance: "Half", wave: "挑戰組", classDay: "星期四班", shoes: "Adidas Pro 3", target: "Sub 1:40", bib: "H3301", status: "已成功報名", notes: "挑戰PB" },
+            { id: 3, name: "Peter哥", distance: "10K", wave: "二組", classDay: "星期六班", shoes: "Nike Streakfly", target: "Sub 55m", bib: "K8820", status: "等待抽籤結果", notes: "同老婆一齊跑" }
+        ];
+
+        let runners = [];
+        let cheerMessages = [];
+        let supporters = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
+            initCountdown();
+            updateTargetOptions();
+            calculatePaceFull();
+        });
+
+        async function loadAllData() {
+            if (GAS_API_URL) {
+                try {
+                    const res = await fetch(GAS_API_URL);
+                    const cloudData = await res.json();
+                    if (cloudData && cloudData.length > 0) {
+                        runners = cloudData;
+                        renderAll();
+                        return;
+                    }
+                } catch(e) { console.error("GAS 讀取失敗，改用 LocalStorage", e); }
+            }
+
+            const savedRunners = localStorage.getItem('r33_runners_v8');
+            runners = savedRunners ? JSON.parse(savedRunners) : [...initialRunners];
+
+            const savedCheers = localStorage.getItem('r33_cheers_v8');
+            cheerMessages = savedCheers ? JSON.parse(savedCheers) : [
+                { author: "阿明", target: "阿強 (R33)", message: "加油阿強！維園等你破 PB！", likes: 5, time: "10分鐘前" }
+            ];
+
+            const savedSupporters = localStorage.getItem('r33_supporters_v8');
+            supporters = savedSupporters ? JSON.parse(savedSupporters) : [
+                { name: "John (IT)" }, { name: "Jessica (HR)" }
+            ];
+
+            renderAll();
+        }
+
+        async function saveAllData() {
+            localStorage.setItem('r33_runners_v8', JSON.stringify(runners));
+            localStorage.setItem('r33_cheers_v8', JSON.stringify(cheerMessages));
+            localStorage.setItem('r33_supporters_v8', JSON.stringify(supporters));
+
+            if (GAS_API_URL) {
+                try {
+                    await fetch(GAS_API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(runners)
+                    });
+                } catch(e) { console.error("GAS 同步失敗", e); }
+            }
+
+            renderAll();
+        }
+
+        function renderAll() {
+            renderSummaryStats();
+            renderRunnerList();
+            renderCheerArea();
+            renderSupportersArea();
+        }
+
+        // 自動統計各項目人數與組別分布 (新增方法)
+        function renderSummaryStats() {
+            let fullCount = 0;
+            let halfCount = 0;
+            let tenKCount = 0;
+            let confirmedCount = 0;
+            let waveCounts = {};
+
+            runners.forEach(r => {
+                if (r.distance === 'Full') fullCount++;
+                else if (r.distance === 'Half') halfCount++;
+                else if (r.distance === '10K') tenKCount++;
+
+                if (r.status === '已成功報名' || r.status === '已中籤/確定') confirmedCount++;
+
+                const wave = r.wave || '未分組';
+                waveCounts[wave] = (waveCounts[wave] || 0) + 1;
+            });
+
+            document.getElementById('statFull').innerText = fullCount;
+            document.getElementById('statHalf').innerText = halfCount;
+            document.getElementById('stat10K').innerText = tenKCount;
+            document.getElementById('statConfirmed').innerText = confirmedCount;
+
+            const waveTextArr = Object.entries(waveCounts).map(([w, c]) => `${w}:${c}`);
+            document.getElementById('statWaves').innerText = waveTextArr.length > 0 ? waveTextArr.join(' | ') : '無數據';
+        }
+
+        function initCountdown() {
+            const targetDate = new Date('2027-01-17T06:00:00+08:00').getTime();
+            function update() {
+                const now = new Date().getTime();
+                const diff = targetDate - now;
+                if (diff <= 0) return;
+
+                document.getElementById('cdDays').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(3, '0');
+                document.getElementById('cdHours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('cdMins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById('cdSecs').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+            }
+            update();
+            setInterval(update, 1000);
+        }
+
+        function updateTargetOptions() {
+            const dist = document.getElementById('calcDistance').value;
+            const select = document.getElementById('calcTargetPreset');
+            const options = presetOptions[dist] || presetOptions["42.195"];
+
+            select.innerHTML = options.map((opt, i) => `
+                <option value="${i}" ${opt.default ? 'selected' : ''}>${opt.label}</option>
+            `).join('');
+
+            handlePresetChange();
+        }
+
+        function handlePresetChange() {
+            const dist = document.getElementById('calcDistance').value;
+            const idx = document.getElementById('calcTargetPreset').value;
+            const opt = presetOptions[dist][idx];
+
+            const customBox = document.getElementById('customTimeBox');
+
+            if (opt.custom) {
+                customBox.classList.remove('hidden');
+            } else {
+                customBox.classList.add('hidden');
+                document.getElementById('calcHours').value = opt.h;
+                document.getElementById('calcMins').value = opt.m;
+                document.getElementById('calcSecs').value = opt.s;
+            }
+
+            calculatePaceFull();
+        }
+
+        function calculatePaceFull() {
+            const dist = parseFloat(document.getElementById('calcDistance').value);
+            const hrs = parseInt(document.getElementById('calcHours').value) || 0;
+            const mins = parseInt(document.getElementById('calcMins').value) || 0;
+            const secs = parseInt(document.getElementById('calcSecs').value) || 0;
+
+            const totalSecs = (hrs * 3600) + (mins * 60) + secs;
+            if (totalSecs <= 0) return;
+
+            const presetSelect = document.getElementById('calcTargetPreset');
+            const selectedText = presetSelect.options[presetSelect.selectedIndex]?.text.split('(')[0] || 'Custom Target';
+            document.getElementById('targetLabelBadge').innerText = selectedText.trim();
+
+            const secsPerKm = totalSecs / dist;
+            const paceMins = Math.floor(secsPerKm / 60);
+            const paceSecs = Math.round(secsPerKm % 60);
+
+            const hoursTotal = totalSecs / 3600;
+            const speedKmh = (dist / hoursTotal).toFixed(2);
+
+            document.getElementById('paceDisplay').innerText = `${String(paceMins).padStart(2, '0')}:${String(paceSecs).padStart(2, '0')}`;
+            document.getElementById('speedDisplay').innerText = speedKmh;
+
+            let splitCheckpoints = [];
+            if (dist === 42.195) splitCheckpoints = [5, 10, 15, 20, 21.0975, 25, 30, 35, 40, 42.195];
+            else if (dist === 21.0975) splitCheckpoints = [5, 10, 15, 20, 21.0975];
+            else if (dist === 10) splitCheckpoints = [2.5, 5, 7.5, 10];
+            else splitCheckpoints = [1, 2, 3, 4, 5];
+
+            const tbody = document.getElementById('splitTableBody');
+            tbody.innerHTML = splitCheckpoints.map(cp => {
+                const cpSecs = secsPerKm * cp;
+                const cpHrs = Math.floor(cpSecs / 3600);
+                const cpMins = Math.floor((cpSecs % 3600) / 60);
+                const cpRemSecs = Math.round(cpSecs % 60);
+
+                let formattedTime = cpHrs > 0 
+                    ? `${cpHrs}:${String(cpMins).padStart(2, '0')}:${String(cpRemSecs).padStart(2, '0')}`
+                    : `${String(cpMins).padStart(2, '0')}:${String(cpRemSecs).padStart(2, '0')}`;
+
+                let label = `${cp} km`;
+                if (cp === 21.0975) label = "半馬 (21.1 km)";
+                if (cp === 42.195) label = "終點 (42.2 km)";
+
+                return `
+                    <tr class="hover:bg-slate-900/50">
+                        <td class="py-2 font-bold text-schk-accent">${label}</td>
+                        <td class="py-2 text-white font-semibold">${formattedTime}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderRunnerList() {
+            const distFilter = document.getElementById('distanceFilter').value;
+            const waveFilter = document.getElementById('waveFilter').value;
+            const tbody = document.getElementById('runnerTableBody');
+            const emptyMsg = document.getElementById('emptyRosterMsg');
+
+            const filtered = runners.filter(r => {
+                const matchDist = distFilter === 'ALL' || r.distance === distFilter;
+                const matchWave = waveFilter === 'ALL' || r.wave === waveFilter;
+                return matchDist && matchWave;
+            });
+
+            document.getElementById('rosterCountBadge').innerText = `已登記 ${runners.length} 人`;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+            tbody.innerHTML = filtered.map(r => `
+                <tr class="hover:bg-slate-900/60 transition">
+                    <td class="p-3.5 font-bold text-white">${escapeHtml(r.name)}</td>
+                    <td class="p-3.5"><span class="bg-schk-green/20 text-schk-green border border-schk-green/30 px-2 py-0.5 rounded font-bold">${escapeHtml(r.distance)}</span></td>
+                    <td class="p-3.5 font-bold text-amber-300">${escapeHtml(r.wave || '未分組')}</td>
+                    <td class="p-3.5 text-slate-300">${escapeHtml(r.classDay || '-')}</td>
+                    <td class="p-3.5 text-slate-300">${escapeHtml(r.shoes || '-')}</td>
+                    <td class="p-3.5 font-mono text-schk-gold font-bold">${escapeHtml(r.target || '-')}</td>
+                    <td class="p-3.5 font-mono">${escapeHtml(r.bib || '-')}</td>
+                    <td class="p-3.5 text-emerald-400 font-semibold">${escapeHtml(r.status)}</td>
+                    <td class="p-3.5 text-slate-400 truncate max-w-[120px]" title="${escapeHtml(r.notes)}">${escapeHtml(r.notes || '-')}</td>
+                    <td class="p-3.5 text-right space-x-1">
+                        <button onclick="editRunner(${r.id})" class="p-1.5 text-slate-400 hover:text-schk-accent"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="deleteRunner(${r.id})" class="p-1.5 text-slate-400 hover:text-red-400"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterRunnerList() { renderRunnerList(); }
+
+        function renderCheerArea() {
+            const targetSelect = document.getElementById('cheerTargetRunner');
+            targetSelect.innerHTML = `<option value="全體 R33 隊友">全體 R33 隊友</option>` +
+                runners.map(r => `<option value="${r.name}">${r.name} (${r.distance})</option>`).join('');
+
+            const cheerList = document.getElementById('cheerList');
+            cheerList.innerHTML = cheerMessages.map((c, idx) => `
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-1.5 text-xs">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-schk-accent">${escapeHtml(c.author)} <span class="text-slate-500 font-normal">加油給</span> <span class="text-schk-gold font-bold">${escapeHtml(c.target)}</span></span>
+                        <span class="text-[10px] text-slate-500">${c.time || '剛剛'}</span>
+                    </div>
+                    <p class="text-slate-200">${escapeHtml(c.message)}</p>
+                    <div class="flex justify-end items-center">
+                        <button onclick="likeCheer(${idx})" class="text-[11px] text-slate-400 hover:text-red-400 flex items-center gap-1">
+                            <i class="fa-solid fa-heart text-red-500"></i> ${c.likes || 0}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleCheerSubmit(e) {
+            e.preventDefault();
+            const author = document.getElementById('cheerAuthor').value.trim();
+            const target = document.getElementById('cheerTargetRunner').value;
+            const message = document.getElementById('cheerMessage').value.trim();
+
+            cheerMessages.unshift({ author, target, message, likes: 1, time: "剛剛" });
+            saveAllData();
+            document.getElementById('cheerMessage').value = '';
+        }
+
+        function likeCheer(index) {
+            cheerMessages[index].likes = (cheerMessages[index].likes || 0) + 1;
+            saveAllData();
+        }
+
+        function renderSupportersArea() {
+            document.getElementById('supporterBadge').innerText = `${supporters.length} 人到場打氣`;
+            const list = document.getElementById('supporterList');
+            if (supporters.length === 0) {
+                list.innerHTML = `<li class="py-2 text-center text-slate-500">暫無同事報名</li>`;
+                return;
+            }
+            list.innerHTML = supporters.map((s, idx) => `
+                <li class="py-2 flex items-center justify-between">
+                    <div><span class="font-bold text-white">${escapeHtml(s.name)}</span></div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="deleteSupporter(${idx})" class="text-slate-500 hover:text-red-400"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        function handleSupporterSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('supporterName').value.trim();
+            supporters.unshift({ name });
+            saveAllData();
+            document.getElementById('supporterName').value = '';
+        }
+
+        function deleteSupporter(index) {
+            supporters.splice(index, 1);
+            saveAllData();
+        }
+
+        function openRunnerModal() {
+            document.getElementById('runnerForm').reset();
+            document.getElementById('runnerEditId').value = '';
+            document.getElementById('runnerModal').classList.remove('hidden');
+        }
+
+        function closeRunnerModal() {
+            document.getElementById('runnerModal').classList.add('hidden');
+        }
+
+        function handleRunnerSubmit(e) {
+            e.preventDefault();
+            const idInput = document.getElementById('runnerEditId').value;
+            
+            const runnerData = {
+                name: document.getElementById('runnerName').value.trim(),
+                distance: document.getElementById('runnerDistance').value,
+                wave: document.getElementById('runnerWave').value,
+                classDay: document.getElementById('runnerClass').value,
+                shoes: document.getElementById('runnerShoes').value.trim(),
+                target: document.getElementById('runnerTarget').value.trim(),
+                bib: document.getElementById('runnerBib').value.trim(),
+                status: document.getElementById('runnerStatus').value,
+                notes: document.getElementById('runnerNotes').value.trim()
+            };
+
+            if (idInput) {
+                const index = runners.findIndex(r => r.id === parseInt(idInput));
+                if (index !== -1) runners[index] = { id: parseInt(idInput), ...runnerData };
+            } else {
+                runners.unshift({ id: Date.now(), ...runnerData });
+            }
+
+            saveAllData();
+            closeRunnerModal();
+        }
+
+        function editRunner(id) {
+            const runner = runners.find(r => r.id === id);
+            if (!runner) return;
+
+            document.getElementById('runnerEditId').value = runner.id;
+            document.getElementById('runnerName').value = runner.name;
+            document.getElementById('runnerDistance').value = runner.distance;
+            document.getElementById('runnerWave').value = runner.wave || '未分組';
+            document.getElementById('runnerClass').value = runner.classDay || '無';
+            document.getElementById('runnerShoes').value = runner.shoes || '';
+            document.getElementById('runnerTarget').value = runner.target || '';
+            document.getElementById('runnerBib').value = runner.bib || '';
+            document.getElementById('runnerStatus').value = runner.status;
+            document.getElementById('runnerNotes').value = runner.notes || '';
+
+            document.getElementById('runnerModal').classList.remove('hidden');
+        }
+
+        function deleteRunner(id) {
+            if (confirm("確定刪除此位隊友資料？")) {
+                runners = runners.filter(r => r.id !== id);
+                saveAllData();
+            }
+        }
+
+        function importRunnerCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split(/\r\n|\n/);
+                let imported = 0;
+                for (let i = 1; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    const parts = lines[i].split(',').map(s => s.replace(/^"|"$/g, '').trim());
+                    if (parts[0]) {
+                        runners.unshift({
+                            id: Date.now() + i,
+                            name: parts[0],
+                            distance: parts[1] || 'Full',
+                            wave: parts[2] || '未分組',
+                            classDay: parts[3] || '無',
+                            shoes: parts[4] || '',
+                            target: parts[5] || '',
+                            bib: parts[6] || '',
+                            status: parts[7] || '已成功報名',
+                            notes: parts[8] || ''
+                        });
+                        imported++;
+                    }
+                }
+                saveAllData();
+                alert(`成功匯入 ${imported} 筆紀錄！`);
+            };
+            reader.readAsText(file, 'UTF-8');
+            event.target.value = '';
+        }
+
+        function exportRunnerCSV() {
+            if (runners.length === 0) return alert("沒有資料可匯出");
+            let csv = "data:text/csv;charset=utf-8,\uFEFF姓名,項目,起步組別,上課班別,跑鞋型號,目標時間,號碼布,狀態,備註\n";
+            runners.forEach(r => {
+                csv += `"${r.name}","${r.distance}","${r.wave || ''}","${r.classDay || ''}","${r.shoes || ''}","${r.target || ''}","${r.bib || ''}","${r.status}","${r.notes || ''}"\n`;
+            });
+            const link = document.createElement("a");
+            link.href = encodeURI(csv);
+            link.download = `R33_SCHKM2027_Roster_v8.csv`;
+            link.click();
+        }
+
+        function escapeHtml(str) {
+            return str ? String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : '';
+        }
+    </script>
+</body>
+</html>
